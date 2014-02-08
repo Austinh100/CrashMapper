@@ -1,0 +1,27 @@
+.car1 {
+    width:118px;
+    height:58px;
+    background:url(../img/carsprites.png) 0 0;
+}
+
+.car2 {
+    width:118px;
+    height:58px;
+    background:url(../img/carsprites.png) 0 -58px;
+}
+
+.grayscale {
+    -webkit-filter: grayscale(80%);
+}
+
+#cars1 {
+    position:relative;
+    width:118px;
+    height:58px;
+}
+
+#cars2 {
+    position:relative;
+    width:118px;
+    height:58px;
+}
