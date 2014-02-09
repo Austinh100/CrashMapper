@@ -1,19 +1,23 @@
 var draw;
 var image;
-var mouseLine;
+var mouseLine = false;
+var motionline2 = false;
 var line = false;
 var activeCar;
 var mouseX = 0;
 var mouseY = 0;
 var curLine;
 var hoverCar;
+var motionline = false;
+var colors = ['#7e0000','#7f3b00', '#7f7d00', '#447f00', '#007f02'];
+var grad;
 
 $( document ).ready(function() {
     console.log( "ready!" );
     console.log($(this).height());
     
-    draw = SVG('backImg')
-    
+    draw = SVG('backImg')    
+
     console.log($(this).innerHeight());
     var parWidth = $("#mapContainer").css("width");
     parWidth = parWidth.substring(0, parWidth.length - 2);
@@ -22,10 +26,21 @@ $( document ).ready(function() {
     });
     
     $("#searchForm input").css('width', parWidth * .6);
-    
-    
-    
-    
+    /*
+    var triangle = draw.defs().add("marker");
+    triangle
+        .attr("id", "triangle")
+        .attr("viewbox", "0 0 10 10")
+        .attr("refX", 0)
+        .attr("refY", 5)
+        .attr("markerUnits","strokeWidth")
+        .attr("markerWidth", 4)
+        .attr("markerHeight", 3)
+        .attr("orient", "auto")
+        .append("path")
+        .attr("d", "M 0 0 L 10 5 L 0 10 z");
+    var testLine = draw.line(100, 50.5, 300, 50.5).stroke({ width: 10 }).attr('markerEnd','url(#triangle)');
+    */
   /*  
     updateMaxHeight();
 
@@ -71,6 +86,21 @@ $( document ).ready(function() {
         if(line) {
             mouseLine.plot(mouseLine.x1, mouseLine.y1, mouseX, mouseY);
         }
+        if(motionline){
+            grad = draw.gradient('linear', function(stop) {
+              stop.at({ offset: 0, color: '#000' })
+              stop.at({ offset: 1, color: colors[activeCar-1] })
+            });
+            var angle = calcAngle(curLine.x1, curLine.y1, mouseX, mouseY);
+            console.log(angle);
+            if(angle > 90.0 || angle < -90.0) {
+                grad.from(1,0).to(0,0);
+            } else {
+                grad.from(0,0).to(1,0);
+            }
+            
+            motionLine[motionLine.length-1].line.plot(mouseLine.x1, mouseLine.y1, mouseX, mouseY).stroke({ color:grad, width: 10 });
+        }
     });
     
     $("#backImg").click(function(e){
@@ -83,6 +113,35 @@ $( document ).ready(function() {
             mouseLine.remove();
         } else {
             placeCar(carToPlace,mouseX,mouseY);
+        }
+        
+        if(motionline) {
+            if(!motionline2) {
+                grad = draw.gradient('linear', function(stop) {
+                  stop.at({ offset: 0, color: '#000' })
+                  stop.at({ offset: 1, color: colors[activeCar-1] })
+                });
+                motionLine[motionLine.length-1].line = draw.line(mouseX, mouseY, mouseX, mouseY).stroke({ color:grad, width: 10 });
+                curLine = {
+                    x1: mouseX,
+                    y1: mouseY
+                };
+                motionline2 = true;
+            } else {
+                motionline = false;
+                motionline2 = false;
+            }
+        }
+    });
+    
+    $("#makeLine").click(function(e){
+        if(!motionline) {
+            motionline = true;
+            motionLine.push({"line":draw.line(0, 0, 0, 0).stroke({ width: 0 })});
+            $("#makeLine").addClass("pure-button-active");
+        } else if(activeCar != 0) {
+            
+            $("#makeLine").removeClass("pure-button-active");
         }
     });
     
@@ -103,9 +162,15 @@ $( document ).ready(function() {
 var carToPlace = 0;
 var mapCars = [];
 
+var motionLine = [];
+
 function carClicked(num) {
-    $("#cars"+num).addClass("grayscale");
-    carToPlace = num;
+    if(!motionline) {
+        $("#cars"+num).addClass("grayscale");
+        carToPlace = num;
+    } else {
+        activeCar = num;
+    }
 }
 
 function placeCar(num, x, y) {
@@ -147,7 +212,7 @@ function newMapCar(num, x, y) {
 }*/
 
 function addArrow() {
-
+    
 }
 
 function calcAngle(x1, y1, x2, y2) {
