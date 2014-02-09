@@ -25,7 +25,8 @@ $( document ).ready(function() {
           this.size(loader.width, loader.height)
     });
     
-    $("#searchForm input").css('width', parWidth * .6);
+    $("#searchForm input").css('width', parWidth * .5);
+    
     /*
     var triangle = draw.defs().add("marker");
     triangle
@@ -91,8 +92,7 @@ $( document ).ready(function() {
               stop.at({ offset: 0, color: '#000' })
               stop.at({ offset: 1, color: colors[activeCar-1] })
             });
-            var angle = calcAngle(curLine.x1, curLine.y1, mouseX, mouseY);
-            console.log(angle);
+            var angle = calcAngle(mouseLine.x1, mouseLine.y1, mouseX, mouseY);
             if(angle > 90.0 || angle < -90.0) {
                 grad.from(1,0).to(0,0);
             } else {
@@ -130,6 +130,10 @@ $( document ).ready(function() {
             } else {
                 motionline = false;
                 motionline2 = false;
+                curLine = {
+                    x1: mouseX,
+                    y1: mouseY
+                };
             }
         }
     });
@@ -137,7 +141,8 @@ $( document ).ready(function() {
     $("#makeLine").click(function(e){
         if(!motionline) {
             motionline = true;
-            motionLine.push({"line":draw.line(0, 0, 0, 0).stroke({ width: 0 })});
+            //motionLine.push({"line":draw.line(0, 0, 0, 0).stroke({ width: 0 })});
+            motionLine.push({"line":""});
             $("#makeLine").addClass("pure-button-active");
         } else if(activeCar != 0) {
             
