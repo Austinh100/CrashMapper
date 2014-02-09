@@ -31,6 +31,20 @@
 	</script>-->
 </head>
 <body>
+    <div class="pure-g-r" id="head">
+        <div class="pure-u-4-5">
+            <form class="pure-form" id="searchForm" action="javascript:searchMap();">
+                <input id="searchText" placeholder="Location" width="auto">
+                <button type="submit" class="pure-button pure-button-primary">Map</button>
+            </form>
+        </div>
+        <div class="pure-u-1-5">
+            <div class="pure-u-1-5">
+            <a class="pure-button pure-button-primary" id="saveImage" href="#">Save</a>
+        </div>
+        <div class="pure-u-4-5" style="display:none;"><canvas id="canvas" width="1000px" height="600px"></canvas></div>
+        </div>
+    </div>
     <div class="pure-g-r">
         <div class="pure-u-2-3" id="mapContainer">
 	       <div id="backImg"></div>
@@ -42,12 +56,6 @@
             <a href="#" onclick="carClicked(4)"><div class="car4" id="cars4"></div></a>
             <a href="#" onclick="carClicked(5)"><div class="car5" id="cars5"></div></a>
         </div>
-    </div>
-    <div class="pure-g-r">
-        <div class="pure-u-1-5">
-            <a class="pure-button pure-button-primary" id="saveImage" href="#">Save</a>
-        </div>
-        <div class="pure-u-4-5" style="display:none;"><canvas id="canvas" width="1000px" height="600px"></canvas></div>
     </div>
 </body>
 </html>

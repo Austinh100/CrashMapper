@@ -1,17 +1,18 @@
 var draw;
+var image;
 var mouseLine;
 var line = false;
 var activeCar;
 var mouseX = 0;
 var mouseY = 0;
 var curLine;
+var hoverCar;
 
 $( document ).ready(function() {
     console.log( "ready!" );
     console.log($(this).height());
     
     draw = SVG('backImg')
-    var image;
     
     console.log($(this).innerHeight());
     var parWidth = $("#mapContainer").css("width");
@@ -19,6 +20,8 @@ $( document ).ready(function() {
     image = draw.image(buildGoogleURL($(this).height(), parWidth, "20", "king%20and%2031st,chicago,il")).loaded(function(loader) {
           this.size(loader.width, loader.height)
     });
+    
+    $("#searchForm input").css('width', parWidth * .6);
     
     
     
@@ -55,9 +58,6 @@ $( document ).ready(function() {
         }));
     }*/
     
-    function buildGoogleURL(height, width, zoom, loc) {
-        return "http://maps.googleapis.com/maps/api/staticmap?center="+loc+"&zoom="+zoom+"&size=" +height+"x"+width+"&sensor=false&style=feature:transit|element:all|visibility:off&style=feature:poi|element:all|visibility:off&style=feature:landscape|element:all|visibility:off&style=feature:administrative|element:all|visibility:off&scale=3&maptype=hybrid";
-    }
     
     $("#backImg").mousemove(function(e){
         var wrapper = $(this).parent();
@@ -75,8 +75,10 @@ $( document ).ready(function() {
     
     $("#backImg").click(function(e){
         if(line) {
-            mapCars[activeCar].image.rotate(calcAngle(curLine.x1, curLine.y1, mouseX, mouseY));
-            console.log(calcAngle(curLine.x1, curLine.y1, mouseX, mouseY));
+            var angle = calcAngle(curLine.x1, curLine.y1, mouseX, mouseY);
+            mapCars[activeCar].image.rotate(angle);
+            mapCars[activeCar].number.rotate(angle, curLine.x1, curLine.y1);
+            console.log(angle);
             line = false;
             mouseLine.remove();
         } else {
@@ -85,12 +87,11 @@ $( document ).ready(function() {
     });
     
     $("#saveImage").click(function(e) {
-        console.log($('svg').attr('id'));
-       canvg('canvas', $('svg').get(0));
+        canvg('canvas', $('#backImg').html(), { ignoreMouse: true, ignoreAnimation: true });
 
         // the canvas calls to output a png
         var canvas = document.getElementById("canvas");
-        var img = canvas.toDataURL("image/png");
+        var img = $('canvas').get(0).toDataURL("img/jpeg");
         
         var parWidth = $("#mapContainer").css("width");
         parWidth = parWidth.substring(0, parWidth.length - 2);
@@ -120,9 +121,10 @@ function mapCarPlaced(num) {
 }
 
 function newMapCar(num, x, y) {
-    mapCars.push({ 'image': draw.image('img/car'+num+'.png'), 'type': num });
-    
-    mapCars[mapCars.length-1].image.x(x-30).y(y-15);
+    mapCars.push({ 
+        'image': draw.image('img/car'+num+'.png').x(x-30).y(y-15), 
+        'number': draw.text(num+"").x(x-9).y(y-15),
+        'type': num });
     mouseLine = draw.line(x, y, mouseX, mouseY).stroke({ width: 3 })
     curLine = {
         x1: x,
@@ -165,4 +167,15 @@ function calcAngle(x1, y1, x2, y2) {
     // angle in degrees
     var angleDeg = Math.atan2((p2.y - p1.y)*-1, p2.x - p1.x) * 180 / Math.PI;
     return -angleDeg;
+}
+
+function searchMap() {
+    var parWidth = $("#mapContainer").css("width");
+    parWidth = parWidth.substring(0, parWidth.length - 2);
+    console.log(encodeURIComponent($("#searchText").val()));
+    image = image.replace(draw.image(buildGoogleURL($(this).height(), parWidth, "20", encodeURIComponent($("#searchText").val()))));
+}
+
+function buildGoogleURL(height, width, zoom, loc) {
+    return "http://maps.googleapis.com/maps/api/staticmap?center="+loc+"&zoom="+zoom+"&size=" +height+"x"+width+"&sensor=false&style=feature:transit|element:all|visibility:off&style=feature:poi|element:all|visibility:off&style=feature:landscape|element:all|visibility:off&style=feature:administrative|element:all|visibility:off&scale=3&maptype=hybrid";
 }
