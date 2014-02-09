@@ -10,18 +10,67 @@
     background:url(../img/carsprites.png) 0 -58px;
 }
 
+.car3 {
+    width:118px;
+    height:58px;
+    background:url(../img/carsprites.png) 0 -116px;
+}
+
+.car4 {
+    width:118px;
+    height:58px;
+    background:url(../img/carsprites.png) 0 -174px;
+}
+
+.car5 {
+    width:118px;
+    height:58px;
+    background:url(../img/carsprites.png) 0 -232px;
+}
+
+.carm1 {
+    width:59px;
+    height:29px;
+    background:url(../img/carsprites.min.png) 0 0;
+}
+
+.carm2 {
+    width:59px;
+    height:29px;
+    background:url(../img/carsprites.min.png) 0 -29px;
+}
+
+.carm3 {
+    width:59px;
+    height:29px;
+    background:url(../img/carsprites.min.png) 0 -58px;
+}
+
+.carm4 {
+    width:59px;
+    height:29px;
+    background:url(../img/carsprites.min.png) 0 -87px;
+}
+
+.carm5 {
+    width:59px;
+    height:29px;
+    background:url(../img/carsprites.min.png) 0 -116px;
+}
+
 .grayscale {
     -webkit-filter: grayscale(80%);
 }
 
 #cars1 {
     position:relative;
-    width:118px;
-    height:58px;
 }
 
 #cars2 {
     position:relative;
-    width:118px;
-    height:58px;
+}
+
+#backImg {
+    position:relative;
+    background-repeat:no-repeat;
 }

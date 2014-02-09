@@ -11,8 +11,14 @@
 		body { background-color:white; color:black }
 	</style>
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.1/pure-min.css">
+    <link rel="stylesheet" href="css/slimbox2.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery.min.js"></script>
+    <script src="js/svg.min.js"></script>
+    <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/rgbcolor.js"></script> 
+    <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/StackBlur.js"></script>
+    <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script> 
+    <script src="js/slimbox2.js"></script>
     <script src="js/main.js"></script>
 	<!--<script src='intelxdk.js'></script>
 	<script type="text/javascript">
@@ -26,13 +32,22 @@
 </head>
 <body>
     <div class="pure-g-r">
-        <div class="pure-u-2-3">
-	       <img id="backImg" onclick="mapClicked()" src="http://maps.googleapis.com/maps/api/staticmap?center=king%20and%2031st,chicago,il&zoom=20&size=400x400&sensor=false&style=feature:transit|element:all|visibility:off&style=feature:poi|element:all|visibility:off&style=feature:landscape|element:all|visibility:off&style=feature:administrative|element:all|visibility:off&scale=3" />
+        <div class="pure-u-2-3" id="mapContainer">
+	       <div id="backImg"></div>
         </div>
         <div class="pure-u-1-3">
             <a href="#" onclick="carClicked(1)"><div class="car1" id="cars1"></div></a>
             <a href="#" onclick="carClicked(2)"><div class="car2" id="cars2"></div></a>
+            <a href="#" onclick="carClicked(3)"><div class="car3" id="cars3"></div></a>
+            <a href="#" onclick="carClicked(4)"><div class="car4" id="cars4"></div></a>
+            <a href="#" onclick="carClicked(5)"><div class="car5" id="cars5"></div></a>
         </div>
+    </div>
+    <div class="pure-g-r">
+        <div class="pure-u-1-5">
+            <a class="pure-button pure-button-primary" id="saveImage" href="#">Save</a>
+        </div>
+        <div class="pure-u-4-5" style="display:none;"><canvas id="canvas" width="1000px" height="600px"></canvas></div>
     </div>
 </body>
 </html>
